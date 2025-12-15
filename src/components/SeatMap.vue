@@ -49,7 +49,13 @@ const isSeatSelected = (seatId: string): boolean => {
       <div class="absolute top-8 left-8 text-gray text-xs font-medium">
         <div class="flex items-center gap-2 mb-6">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8 14L8 2M8 2L4 6M8 2L12 6" stroke="#CCCCCC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path
+              d="M8 14L8 2M8 2L4 6M8 2L12 6"
+              stroke="#CCCCCC"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
           <span class="text-gray-lighter">Entrance</span>
         </div>
@@ -58,13 +64,13 @@ const isSeatSelected = (seatId: string): boolean => {
       <div class="absolute top-12 right-8 text-gray text-xs font-medium space-y-8">
         <div class="flex items-center gap-2">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="2" y="2" width="12" height="6" fill="#CCCCCC" opacity="0.3" rx="2"/>
+            <rect x="2" y="2" width="12" height="6" fill="#CCCCCC" opacity="0.3" rx="2" />
           </svg>
           <span class="text-gray-lighter">Bar</span>
         </div>
         <div class="flex items-center gap-2">
           <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-            <rect x="2" y="2" width="16" height="12" fill="#CCCCCC" opacity="0.3" rx="2"/>
+            <rect x="2" y="2" width="16" height="12" fill="#CCCCCC" opacity="0.3" rx="2" />
           </svg>
           <span class="text-gray-lighter">Lounge</span>
         </div>
@@ -72,7 +78,7 @@ const isSeatSelected = (seatId: string): boolean => {
 
       <div class="absolute bottom-32 left-8 flex items-center gap-2 text-gray text-xs font-medium">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <rect x="2" y="2" width="12" height="12" fill="#CCCCCC" opacity="0.3" rx="2"/>
+          <rect x="2" y="2" width="12" height="12" fill="#CCCCCC" opacity="0.3" rx="2" />
         </svg>
         <span class="text-gray-lighter">Fitness</span>
       </div>
@@ -81,8 +87,10 @@ const isSeatSelected = (seatId: string): boolean => {
       <svg viewBox="0 0 280 350" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
         <!-- Table A -->
         <g id="table-a">
-          <rect x="70" y="90" width="30" height="138" fill="#EAEAEA" rx="4"/>
-          <text x="85" y="165" text-anchor="middle" font-size="28" font-weight="500" fill="#CCCCCC">A</text>
+          <rect x="70" y="90" width="30" height="138" fill="#EAEAEA" rx="4" />
+          <text x="85" y="165" text-anchor="middle" font-size="28" font-weight="500" fill="#CCCCCC">
+            A
+          </text>
 
           <!-- Left seats -->
           <g v-for="seat in getSeatsByTable('A', 'left')" :key="seat.id">
@@ -95,14 +103,16 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
               @mouseleave="hoveredSeat = null"
             />
             <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="48" :cy="90 + getSeatY(seat.index)" r="8" fill="white"/>
+              <circle :cx="48" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
               <path
                 :d="`M 45 ${90 + getSeatY(seat.index)} L 47 ${92 + getSeatY(seat.index)} L 51 ${88 + getSeatY(seat.index)}`"
                 stroke="#A78BFA"
@@ -125,14 +135,16 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
               @mouseleave="hoveredSeat = null"
             />
             <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="112" :cy="90 + getSeatY(seat.index)" r="8" fill="white"/>
+              <circle :cx="112" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
               <path
                 :d="`M 109 ${90 + getSeatY(seat.index)} L 111 ${92 + getSeatY(seat.index)} L 115 ${88 + getSeatY(seat.index)}`"
                 stroke="#A78BFA"
@@ -146,12 +158,21 @@ const isSeatSelected = (seatId: string): boolean => {
         </g>
 
         <!-- Divider -->
-        <line x1="140" y1="80" x2="140" y2="280" stroke="#EAEAEA" stroke-width="2"/>
+        <line x1="140" y1="80" x2="140" y2="280" stroke="#EAEAEA" stroke-width="2" />
 
         <!-- Table B -->
         <g id="table-b">
-          <rect x="160" y="90" width="30" height="138" fill="#EAEAEA" rx="4"/>
-          <text x="175" y="165" text-anchor="middle" font-size="28" font-weight="500" fill="#CCCCCC">B</text>
+          <rect x="160" y="90" width="30" height="138" fill="#EAEAEA" rx="4" />
+          <text
+            x="175"
+            y="165"
+            text-anchor="middle"
+            font-size="28"
+            font-weight="500"
+            fill="#CCCCCC"
+          >
+            B
+          </text>
 
           <!-- Left seats -->
           <g v-for="seat in getSeatsByTable('B', 'left')" :key="seat.id">
@@ -164,14 +185,16 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
               @mouseleave="hoveredSeat = null"
             />
             <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="138" :cy="90 + getSeatY(seat.index)" r="8" fill="white"/>
+              <circle :cx="138" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
               <path
                 :d="`M 135 ${90 + getSeatY(seat.index)} L 137 ${92 + getSeatY(seat.index)} L 141 ${88 + getSeatY(seat.index)}`"
                 stroke="#A78BFA"
@@ -194,14 +217,16 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
               @mouseleave="hoveredSeat = null"
             />
             <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="202" :cy="90 + getSeatY(seat.index)" r="8" fill="white"/>
+              <circle :cx="202" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
               <path
                 :d="`M 199 ${90 + getSeatY(seat.index)} L 201 ${92 + getSeatY(seat.index)} L 205 ${88 + getSeatY(seat.index)}`"
                 stroke="#A78BFA"
@@ -216,8 +241,17 @@ const isSeatSelected = (seatId: string): boolean => {
 
         <!-- Table C -->
         <g id="table-c">
-          <rect x="220" y="90" width="30" height="138" fill="#EAEAEA" rx="4"/>
-          <text x="235" y="165" text-anchor="middle" font-size="28" font-weight="500" fill="#CCCCCC">C</text>
+          <rect x="220" y="90" width="30" height="138" fill="#EAEAEA" rx="4" />
+          <text
+            x="235"
+            y="165"
+            text-anchor="middle"
+            font-size="28"
+            font-weight="500"
+            fill="#CCCCCC"
+          >
+            C
+          </text>
 
           <!-- Left seats (special shapes for table C) -->
           <g v-for="seat in getSeatsByTable('C', 'left')" :key="seat.id">
@@ -229,7 +263,9 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
@@ -245,14 +281,16 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
               @mouseleave="hoveredSeat = null"
             />
             <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="208" :cy="90 + getSeatY(seat.index)" r="8" fill="white"/>
+              <circle :cx="208" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
               <path
                 :d="`M 205 ${90 + getSeatY(seat.index)} L 207 ${92 + getSeatY(seat.index)} L 211 ${88 + getSeatY(seat.index)}`"
                 stroke="#A78BFA"
@@ -275,7 +313,9 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
@@ -291,14 +331,16 @@ const isSeatSelected = (seatId: string): boolean => {
               :fill="getSeatColor(seat)"
               :class="[
                 'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected' ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed'
+                seat.status === 'available' || seat.status === 'selected'
+                  ? 'cursor-pointer hover:opacity-80'
+                  : 'cursor-not-allowed',
               ]"
               @click="handleSeatClick(seat)"
               @mouseenter="hoveredSeat = seat.id"
               @mouseleave="hoveredSeat = null"
             />
             <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="262" :cy="90 + getSeatY(seat.index)" r="8" fill="white"/>
+              <circle :cx="262" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
               <path
                 :d="`M 259 ${90 + getSeatY(seat.index)} L 261 ${92 + getSeatY(seat.index)} L 265 ${88 + getSeatY(seat.index)}`"
                 stroke="#A78BFA"
@@ -314,21 +356,31 @@ const isSeatSelected = (seatId: string): boolean => {
         <!-- Meeting Rooms -->
         <g id="meeting-rooms">
           <g id="meeting-a">
-            <rect x="45" y="285" width="80" height="40" fill="#EAEAEA" opacity="0.2" rx="6"/>
+            <rect x="45" y="285" width="80" height="40" fill="#EAEAEA" opacity="0.2" rx="6" />
             <svg x="55" y="295" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="7" cy="6" r="2.5" fill="#CCCCCC"/>
-              <circle cx="13" cy="6" r="2.5" fill="#CCCCCC"/>
-              <path d="M4 14c0-1.5 1.5-3 3-3s3 1.5 3 3M10 14c0-1.5 1.5-3 3-3s3 1.5 3 3" stroke="#CCCCCC" stroke-width="1.5" fill="none"/>
+              <circle cx="7" cy="6" r="2.5" fill="#CCCCCC" />
+              <circle cx="13" cy="6" r="2.5" fill="#CCCCCC" />
+              <path
+                d="M4 14c0-1.5 1.5-3 3-3s3 1.5 3 3M10 14c0-1.5 1.5-3 3-3s3 1.5 3 3"
+                stroke="#CCCCCC"
+                stroke-width="1.5"
+                fill="none"
+              />
             </svg>
             <text x="80" y="307" font-size="11" font-weight="500" fill="#CCCCCC">Meeting</text>
             <text x="80" y="318" font-size="11" font-weight="500" fill="#CCCCCC">Room A</text>
           </g>
           <g id="meeting-b">
-            <rect x="155" y="285" width="80" height="40" fill="#EAEAEA" opacity="0.2" rx="6"/>
+            <rect x="155" y="285" width="80" height="40" fill="#EAEAEA" opacity="0.2" rx="6" />
             <svg x="165" y="295" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="7" cy="6" r="2.5" fill="#CCCCCC"/>
-              <circle cx="13" cy="6" r="2.5" fill="#CCCCCC"/>
-              <path d="M4 14c0-1.5 1.5-3 3-3s3 1.5 3 3M10 14c0-1.5 1.5-3 3-3s3 1.5 3 3" stroke="#CCCCCC" stroke-width="1.5" fill="none"/>
+              <circle cx="7" cy="6" r="2.5" fill="#CCCCCC" />
+              <circle cx="13" cy="6" r="2.5" fill="#CCCCCC" />
+              <path
+                d="M4 14c0-1.5 1.5-3 3-3s3 1.5 3 3M10 14c0-1.5 1.5-3 3-3s3 1.5 3 3"
+                stroke="#CCCCCC"
+                stroke-width="1.5"
+                fill="none"
+              />
             </svg>
             <text x="190" y="307" font-size="11" font-weight="500" fill="#CCCCCC">Meeting</text>
             <text x="190" y="318" font-size="11" font-weight="500" fill="#CCCCCC">Room B</text>
