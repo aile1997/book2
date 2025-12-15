@@ -52,7 +52,7 @@ const timeSlots = ref<TimeSlot[]>([
 // 当前选中的日期和时间
 const selectedDateTime = computed(() => {
   for (const slot of timeSlots.value) {
-    const selectedTime = slot.times.find(t => t.selected)
+    const selectedTime = slot.times.find((t) => t.selected)
     if (selectedTime) {
       return {
         date: slot.date,
@@ -101,7 +101,7 @@ const reselectSeat = () => {
 
 // 移除邀请伙伴
 const removePartner = (partner: string) => {
-  invitedPartners.value = invitedPartners.value.filter(p => p !== partner)
+  invitedPartners.value = invitedPartners.value.filter((p) => p !== partner)
 }
 
 // 打开查找伙伴模态框
@@ -149,7 +149,13 @@ const backToHome = () => {
           @click="goBack"
           class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-light transition-colors"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M15 19.9201L8.47997 13.4001C7.70997 12.6301 7.70997 11.3701 8.47997 10.6001L15 4.08008"
               stroke="#292D32"
@@ -167,21 +173,16 @@ const backToHome = () => {
 
     <!-- ========== 主要内容区域 ========== -->
     <div class="px-6 py-6 pb-28 max-w-2xl mx-auto">
-      
       <!-- ========== 座位选择区域 ========== -->
       <section class="mb-8">
         <h2 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">选择座位</h2>
-        
+
         <!-- 未选择座位时显示地图预览 -->
         <div v-if="!selectedSeat" class="relative">
           <div class="opacity-60 pointer-events-none">
-            <SeatMap
-              :seats="seats"
-              :selected-seat="null"
-              @select-seat="() => {}"
-            />
+            <SeatMap :seats="seats" :selected-seat="null" @select-seat="() => {}" />
           </div>
-          
+
           <!-- 选择按钮覆层 -->
           <div class="absolute inset-0 flex items-center justify-center">
             <button
@@ -212,11 +213,7 @@ const backToHome = () => {
 
           <!-- 座位地图缩略图 -->
           <div class="mt-6 scale-75 origin-top-left pointer-events-none">
-            <SeatMap
-              :seats="seats"
-              :selected-seat="selectedSeat"
-              @select-seat="() => {}"
-            />
+            <SeatMap :seats="seats" :selected-seat="selectedSeat" @select-seat="() => {}" />
           </div>
         </div>
       </section>
@@ -227,19 +224,15 @@ const backToHome = () => {
       <!-- ========== 日期和时间选择 ========== -->
       <section class="mb-8">
         <h2 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">日期 & 时间</h2>
-        
+
         <div class="space-y-4">
-          <div
-            v-for="(slot, dateIndex) in timeSlots"
-            :key="slot.id"
-            class="flex gap-4 items-start"
-          >
+          <div v-for="(slot, dateIndex) in timeSlots" :key="slot.id" class="flex gap-4 items-start">
             <!-- 日期显示 -->
             <div class="w-20 flex-shrink-0">
               <div class="text-2xl font-bold text-gray-dark tracking-tight">{{ slot.date }}</div>
               <div class="text-xs text-gray mt-1 tracking-tight">{{ slot.weekday }}</div>
             </div>
-            
+
             <!-- 时间段选择 -->
             <div class="flex-1 space-y-2">
               <button
@@ -250,7 +243,7 @@ const backToHome = () => {
                 :class="[
                   time.selected
                     ? 'bg-success text-white shadow-md'
-                    : 'border-2 border-gray-light text-gray-dark hover:border-gray-dark'
+                    : 'border-2 border-gray-light text-gray-dark hover:border-gray-dark',
                 ]"
               >
                 {{ time.time }}
@@ -266,7 +259,7 @@ const backToHome = () => {
       <!-- ========== 邀请伙伴 ========== -->
       <section class="mb-8">
         <h2 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">邀请伙伴</h2>
-        
+
         <div class="flex flex-wrap gap-3">
           <!-- 已邀请的伙伴标签 -->
           <button
@@ -284,11 +277,16 @@ const backToHome = () => {
               xmlns="http://www.w3.org/2000/svg"
               class="opacity-60 group-hover:opacity-100 transition-opacity"
             >
-              <circle cx="8" cy="8" r="7" fill="#784DC7"/>
-              <path d="M5 5L11 11M11 5L5 11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="8" cy="8" r="7" fill="#784DC7" />
+              <path
+                d="M5 5L11 11M11 5L5 11"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
             </svg>
           </button>
-          
+
           <!-- 添加伙伴按钮 -->
           <button
             @click="openFindPartnerModal"
@@ -309,7 +307,9 @@ const backToHome = () => {
                 stroke-linecap="round"
               />
             </svg>
-            <span class="text-sm font-medium text-gray group-hover:text-gray-dark transition-colors">
+            <span
+              class="text-sm font-medium text-gray group-hover:text-gray-dark transition-colors"
+            >
               添加伙伴
             </span>
           </button>
@@ -320,7 +320,10 @@ const backToHome = () => {
       </section>
 
       <!-- ========== 预订摘要 ========== -->
-      <section v-if="selectedSeat && selectedDateTime" class="bg-primary-light/30 rounded-2xl p-6 border border-primary/20">
+      <section
+        v-if="selectedSeat && selectedDateTime"
+        class="bg-primary-light/30 rounded-2xl p-6 border border-primary/20"
+      >
         <h3 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">预订摘要</h3>
         <div class="space-y-3 text-sm">
           <div class="flex justify-between">
@@ -329,7 +332,9 @@ const backToHome = () => {
           </div>
           <div class="flex justify-between">
             <span class="text-gray">日期</span>
-            <span class="font-medium text-gray-dark">{{ selectedDateTime.date }} ({{ selectedDateTime.weekday }})</span>
+            <span class="font-medium text-gray-dark"
+              >{{ selectedDateTime.date }} ({{ selectedDateTime.weekday }})</span
+            >
           </div>
           <div class="flex justify-between">
             <span class="text-gray">时间</span>
@@ -343,9 +348,15 @@ const backToHome = () => {
           <div class="flex justify-between items-center">
             <span class="text-gray">消耗积分</span>
             <div class="flex items-center gap-2">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="10" cy="10" r="9" fill="#51D5FF"/>
-                <path d="M10 6v8M6 10h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="10" cy="10" r="9" fill="#51D5FF" />
+                <path d="M10 6v8M6 10h8" stroke="white" stroke-width="1.5" stroke-linecap="round" />
               </svg>
               <span class="font-bold text-cyan text-lg">{{ coinCost }}</span>
             </div>
@@ -355,17 +366,25 @@ const backToHome = () => {
     </div>
 
     <!-- ========== 底部固定操作栏 ========== -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-light px-6 py-4 z-20 shadow-lg">
+    <div
+      class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-light px-6 py-4 z-20 shadow-lg"
+    >
       <div class="flex items-center justify-between max-w-2xl mx-auto gap-4">
         <!-- Coins 显示 -->
         <div class="flex items-center gap-2 px-4 py-2 bg-cyan/10 rounded-xl">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#51D5FF"/>
-            <path d="M12 7v10M7 12h10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="12" cy="12" r="10" fill="#51D5FF" />
+            <path d="M12 7v10M7 12h10" stroke="white" stroke-width="2" stroke-linecap="round" />
           </svg>
           <span class="text-lg font-bold text-cyan">{{ coinCost }}</span>
         </div>
-        
+
         <!-- 预定按钮 -->
         <button
           @click="bookNow"
@@ -378,7 +397,7 @@ const backToHome = () => {
     </div>
 
     <!-- ========== 模态框组件 ========== -->
-    
+
     <!-- 座位选择模态框 -->
     <SeatSelectionModal
       v-model:visible="showSeatModal"
@@ -396,10 +415,7 @@ const backToHome = () => {
     />
 
     <!-- 成功模态框 -->
-    <SuccessModal
-      v-model:visible="showSuccessModal"
-      @back="backToHome"
-    />
+    <SuccessModal v-model:visible="showSuccessModal" @back="backToHome" />
   </div>
 </template>
 
@@ -415,11 +431,11 @@ const backToHome = () => {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CCCCCC;
+  background: #cccccc;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B9B9B9;
+  background: #b9b9b9;
 }
 </style>

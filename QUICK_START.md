@@ -99,6 +99,7 @@ npm run dev
 ### 2. 批量邀请伙伴
 
 在查找伙伴窗口中：
+
 1. 使用搜索快速找到特定伙伴
 2. 使用桌子视图查看整个团队的座位
 
@@ -109,6 +110,7 @@ npm run dev
 ### 4. 移动端使用
 
 在手机上访问时：
+
 - 所有按钮都经过触摸优化
 - 模态框会从底部滑出
 - 字体大小自动调整
@@ -128,11 +130,11 @@ import { useSeats } from '@/composables/useSeats'
 ### 使用组合式函数
 
 ```typescript
-const { 
-  seats,           // 所有座位数据
-  selectedSeat,    // 当前选中的座位
-  selectSeat,      // 选择座位方法
-  clearSelection   // 清除选择方法
+const {
+  seats, // 所有座位数据
+  selectedSeat, // 当前选中的座位
+  selectSeat, // 选择座位方法
+  clearSelection, // 清除选择方法
 } = useSeats()
 ```
 
@@ -147,7 +149,7 @@ const seats = ref<Seat[]>([
     table: 'A',
     position: 'left',
     index: 0,
-    status: 'available'
+    status: 'available',
   },
   // ... 更多座位
 ])

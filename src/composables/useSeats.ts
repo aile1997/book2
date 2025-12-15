@@ -12,7 +12,7 @@ export function useSeats() {
     { id: 'A4', table: 'A', position: 'left', index: 3, status: 'available' },
     { id: 'A5', table: 'A', position: 'left', index: 4, status: 'available' },
     { id: 'A6', table: 'A', position: 'left', index: 5, status: 'available' },
-    
+
     // 桌子 A - 右侧座位
     { id: 'A7', table: 'A', position: 'right', index: 0, status: 'available' },
     { id: 'A8', table: 'A', position: 'right', index: 1, status: 'occupied', occupiedBy: '' },
@@ -20,7 +20,7 @@ export function useSeats() {
     { id: 'A10', table: 'A', position: 'right', index: 3, status: 'available' },
     { id: 'A11', table: 'A', position: 'right', index: 4, status: 'available' },
     { id: 'A12', table: 'A', position: 'right', index: 5, status: 'occupied', occupiedBy: '' },
-    
+
     // 桌子 B - 左侧座位
     { id: 'B1', table: 'B', position: 'left', index: 0, status: 'available' },
     { id: 'B2', table: 'B', position: 'left', index: 1, status: 'occupied', occupiedBy: '' },
@@ -28,7 +28,7 @@ export function useSeats() {
     { id: 'B4', table: 'B', position: 'left', index: 3, status: 'occupied', occupiedBy: '' },
     { id: 'B5', table: 'B', position: 'left', index: 4, status: 'occupied', occupiedBy: '' },
     { id: 'B6', table: 'B', position: 'left', index: 5, status: 'occupied', occupiedBy: '' },
-    
+
     // 桌子 B - 右侧座位
     { id: 'B7', table: 'B', position: 'right', index: 0, status: 'available' },
     { id: 'B8', table: 'B', position: 'right', index: 1, status: 'occupied', occupiedBy: '' },
@@ -36,15 +36,22 @@ export function useSeats() {
     { id: 'B10', table: 'B', position: 'right', index: 3, status: 'available' },
     { id: 'B11', table: 'B', position: 'right', index: 4, status: 'available' },
     { id: 'B12', table: 'B', position: 'right', index: 5, status: 'available' },
-    
+
     // 桌子 C - 左侧座位
-    { id: 'C1', table: 'C', position: 'left', index: 0, status: 'occupied', occupiedBy: 'Ethan Wei' },
+    {
+      id: 'C1',
+      table: 'C',
+      position: 'left',
+      index: 0,
+      status: 'occupied',
+      occupiedBy: 'Ethan Wei',
+    },
     { id: 'C2', table: 'C', position: 'left', index: 1, status: 'occupied', occupiedBy: '' },
     { id: 'C3', table: 'C', position: 'left', index: 2, status: 'occupied', occupiedBy: '' },
     { id: 'C4', table: 'C', position: 'left', index: 3, status: 'occupied', occupiedBy: '' },
     { id: 'C5', table: 'C', position: 'left', index: 4, status: 'occupied', occupiedBy: '' },
     { id: 'C6', table: 'C', position: 'left', index: 5, status: 'occupied', occupiedBy: '' },
-    
+
     // 桌子 C - 右侧座位
     { id: 'C7', table: 'C', position: 'right', index: 0, status: 'available' },
     { id: 'C8', table: 'C', position: 'right', index: 1, status: 'available' },
@@ -59,20 +66,20 @@ export function useSeats() {
 
   // 根据桌子和位置获取座位
   const getSeatsByTable = (table: 'A' | 'B' | 'C', position: 'left' | 'right') => {
-    return seats.value.filter(s => s.table === table && s.position === position)
+    return seats.value.filter((s) => s.table === table && s.position === position)
   }
 
   // 选择座位
   const selectSeat = (seatId: string) => {
-    const seat = seats.value.find(s => s.id === seatId)
+    const seat = seats.value.find((s) => s.id === seatId)
     if (seat && seat.status === 'available') {
       // 取消之前选中的座位
-      seats.value.forEach(s => {
+      seats.value.forEach((s) => {
         if (s.status === 'selected') {
           s.status = 'available'
         }
       })
-      
+
       // 选中新座位
       seat.status = 'selected'
       selectedSeat.value = seatId
@@ -81,7 +88,7 @@ export function useSeats() {
 
   // 取消选择
   const clearSelection = () => {
-    seats.value.forEach(s => {
+    seats.value.forEach((s) => {
       if (s.status === 'selected') {
         s.status = 'available'
       }
@@ -132,7 +139,7 @@ export function usePartners() {
 
   // 根据桌子获取伙伴
   const getPartnersByTable = (table: 'A' | 'B' | 'C') => {
-    return allPartners.value.filter(p => p.table === table)
+    return allPartners.value.filter((p) => p.table === table)
   }
 
   return {

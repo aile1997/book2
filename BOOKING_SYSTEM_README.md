@@ -7,17 +7,20 @@
 ### 核心功能
 
 1. **交互式座位选择**
+
    - 基于 SVG 的可点击座位地图
    - 实时显示座位状态（可用/已占用/已选中)
    - 支持三个桌子区域（Table A, B, C）
    - 每个桌子支持左右两侧座位布局
 
 2. **日期和时间选择**
+
    - 多日期选择支持
    - 多时间段选择
    - 清晰的选中状态指示
 
 3. **伙伴邀请系统**
+
    - 搜索伙伴功能
    - 桌子视图查看伙伴位置
    - 支持添加/移除邀请的伙伴
@@ -61,14 +64,17 @@ src/
 SVG 座位地图组件，负责渲染可交互的座位布局。
 
 **Props:**
+
 - `seats: Seat[]` - 座位数据数组
 - `selectedSeat: string | null` - 当前选中的座位 ID
 - `showTooltip?: boolean` - 是否显示悬浮提示
 
 **Events:**
+
 - `@select-seat` - 座位被选中时触发
 
 **特性:**
+
 - 使用 SVG 绘制座位，支持精确的样式控制
 - 支持三个桌子区域（A, B, C）
 - 每个座位支持三种状态：可用、已占用、已选中
@@ -79,14 +85,17 @@ SVG 座位地图组件，负责渲染可交互的座位布局。
 查找伙伴模态框，支持搜索和桌子视图两种模式。
 
 **Props:**
+
 - `visible: boolean` - 模态框显示状态
 - `selectedPartners: string[]` - 已选中的伙伴列表
 
 **Events:**
+
 - `@update:selectedPartners` - 伙伴选择变更
 - `@confirm` - 确认选择
 
 **特性:**
+
 - 搜索模式：实时过滤伙伴列表
 - 桌子视图：查看特定桌子的伙伴分布
 - 支持在三个桌子间切换
@@ -97,6 +106,7 @@ SVG 座位地图组件，负责渲染可交互的座位布局。
 封装座位管理逻辑的组合式函数。
 
 **返回值:**
+
 - `seats` - 所有座位数据
 - `selectedSeat` - 当前选中的座位
 - `getSeatsByTable()` - 根据桌子和位置获取座位
@@ -156,10 +166,12 @@ colors: {
 ### 适配策略
 
 1. **移动端优先**
+
    - 基础样式针对移动端设计
    - 使用 `@media` 查询增强桌面端体验
 
 2. **触摸优化**
+
    - 按钮最小点击区域：44px × 44px
    - 移除点击高亮：`-webkit-tap-highlight-color: transparent`
 
@@ -179,11 +191,7 @@ const { seats, selectedSeat, selectSeat } = useSeats()
 </script>
 
 <template>
-  <SeatMap
-    :seats="seats"
-    :selected-seat="selectedSeat"
-    @select-seat="selectSeat"
-  />
+  <SeatMap :seats="seats" :selected-seat="selectedSeat" @select-seat="selectSeat" />
 </template>
 ```
 
@@ -191,12 +199,12 @@ const { seats, selectedSeat, selectSeat } = useSeats()
 
 ```typescript
 interface Seat {
-  id: string              // 座位ID (例如: A1, B2, C3)
-  table: 'A' | 'B' | 'C'  // 桌子名称
-  position: 'left' | 'right'  // 左侧或右侧
-  index: number           // 座位索引（0-5）
-  status: SeatStatus      // 座位状态
-  occupiedBy?: string     // 占用者姓名
+  id: string // 座位ID (例如: A1, B2, C3)
+  table: 'A' | 'B' | 'C' // 桌子名称
+  position: 'left' | 'right' // 左侧或右侧
+  index: number // 座位索引（0-5）
+  status: SeatStatus // 座位状态
+  occupiedBy?: string // 占用者姓名
 }
 
 type SeatStatus = 'available' | 'occupied' | 'selected'
@@ -207,14 +215,14 @@ type SeatStatus = 'available' | 'occupied' | 'selected'
 ```typescript
 interface TimeSlot {
   id: string
-  date: string           // 日期 (例如: 11.20)
-  weekday: string        // 星期 (例如: Wed.)
+  date: string // 日期 (例如: 11.20)
+  weekday: string // 星期 (例如: Wed.)
   times: TimeOption[]
 }
 
 interface TimeOption {
   id: string
-  time: string          // 时间段 (例如: 09:00 - 12:00)
+  time: string // 时间段 (例如: 09:00 - 12:00)
   selected: boolean
 }
 ```

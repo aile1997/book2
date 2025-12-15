@@ -54,8 +54,19 @@ const canConfirm = computed(() => !!props.selectedSeat)
             @click="close"
             class="absolute -top-16 right-0 w-12 h-12 rounded-full bg-gray-dark flex items-center justify-center hover:opacity-90 transition-opacity"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 6L18 18M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 6L18 18M18 6L6 18"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
           </button>
 
@@ -72,11 +83,7 @@ const canConfirm = computed(() => !!props.selectedSeat)
           </div>
 
           <!-- 座位地图 -->
-          <SeatMap
-            :seats="seats"
-            :selected-seat="selectedSeat"
-            @select-seat="handleSeatSelect"
-          />
+          <SeatMap :seats="seats" :selected-seat="selectedSeat" @select-seat="handleSeatSelect" />
 
           <!-- 当前选择 -->
           <div v-if="selectedSeat" class="mt-6 text-center">

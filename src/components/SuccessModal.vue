@@ -29,8 +29,16 @@ const close = () => {
         <!-- 成功卡片 -->
         <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center animate-success">
           <!-- 成功图标 -->
-          <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-success/10 flex items-center justify-center">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div
+            class="w-24 h-24 mx-auto mb-6 rounded-full bg-success/10 flex items-center justify-center"
+          >
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"
                 fill="#38D87B"
@@ -47,7 +55,7 @@ const close = () => {
 
           <!-- 标题 -->
           <h2 class="text-3xl font-bold text-gray-dark mb-3">预订成功！</h2>
-          
+
           <!-- 描述 -->
           <p class="text-base text-gray mb-8">
             您的座位已成功预订。<br />

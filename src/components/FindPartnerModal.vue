@@ -44,12 +44,12 @@ const allPartners: Partner[] = [
 const filteredPartners = computed(() => {
   if (!searchQuery.value) return []
   const query = searchQuery.value.toLowerCase()
-  return allPartners.filter(p => p.name.toLowerCase().includes(query)).slice(0, 5)
+  return allPartners.filter((p) => p.name.toLowerCase().includes(query)).slice(0, 5)
 })
 
 // 根据桌子获取伙伴
 const partnersByTable = computed(() => {
-  return allPartners.filter(p => p.table === selectedTable.value)
+  return allPartners.filter((p) => p.table === selectedTable.value)
 })
 
 // 选择伙伴（从搜索）
@@ -96,11 +96,11 @@ const highlightMatch = (text: string, query: string) => {
   if (!query) return text
   const index = text.toLowerCase().indexOf(query.toLowerCase())
   if (index === -1) return text
-  
+
   return {
     before: text.slice(0, index),
     match: text.slice(index, index + query.length),
-    after: text.slice(index + query.length)
+    after: text.slice(index + query.length),
   }
 }
 </script>
@@ -114,19 +114,34 @@ const highlightMatch = (text: string, query: string) => {
         @click.self="close"
       >
         <!-- 主模态框容器 -->
-        <div class="w-full max-w-[600px] rounded-t-[45px] bg-success px-8 pb-8 pt-12 animate-slide-up">
+        <div
+          class="w-full max-w-[600px] rounded-t-[45px] bg-success px-8 pb-8 pt-12 animate-slide-up"
+        >
           <!-- 关闭按钮 -->
           <button
             @click="close"
             class="absolute top-6 right-6 w-12 h-12 rounded-full bg-gray-dark flex items-center justify-center hover:opacity-90 transition-opacity"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 6L18 18M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 6L18 18M18 6L6 18"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
           </button>
 
           <!-- 标题 -->
-          <h2 class="text-2xl font-medium text-white text-center mb-8 leading-[100%] tracking-[-0.24px]">
+          <h2
+            class="text-2xl font-medium text-white text-center mb-8 leading-[100%] tracking-[-0.24px]"
+          >
             Find Partner
           </h2>
 
@@ -143,20 +158,28 @@ const highlightMatch = (text: string, query: string) => {
             </div>
 
             <!-- 搜索结果列表 -->
-            <div
-              v-if="filteredPartners.length > 0"
-              class="bg-white rounded-lg overflow-hidden"
-            >
+            <div v-if="filteredPartners.length > 0" class="bg-white rounded-lg overflow-hidden">
               <button
                 v-for="partner in filteredPartners"
                 :key="partner.id"
                 @click="selectPartnerFromSearch(partner.name)"
                 class="w-full text-left px-4 py-3 text-sm font-medium hover:bg-success/10 transition-colors leading-[100%] tracking-[-0.14px] border-b border-gray-light last:border-0"
               >
-                <template v-if="highlightMatch(partner.name, searchQuery) && typeof highlightMatch(partner.name, searchQuery) === 'object'">
-                  <span class="text-black">{{ (highlightMatch(partner.name, searchQuery) as any).before }}</span>
-                  <span class="text-success font-semibold">{{ (highlightMatch(partner.name, searchQuery) as any).match }}</span>
-                  <span class="text-black">{{ (highlightMatch(partner.name, searchQuery) as any).after }}</span>
+                <template
+                  v-if="
+                    highlightMatch(partner.name, searchQuery) &&
+                    typeof highlightMatch(partner.name, searchQuery) === 'object'
+                  "
+                >
+                  <span class="text-black">{{
+                    (highlightMatch(partner.name, searchQuery) as any).before
+                  }}</span>
+                  <span class="text-success font-semibold">{{
+                    (highlightMatch(partner.name, searchQuery) as any).match
+                  }}</span>
+                  <span class="text-black">{{
+                    (highlightMatch(partner.name, searchQuery) as any).after
+                  }}</span>
                 </template>
                 <template v-else>
                   <span class="text-black">{{ partner.name }}</span>
@@ -187,7 +210,7 @@ const highlightMatch = (text: string, query: string) => {
                   'text-base font-medium leading-[100%] tracking-[-0.16px] transition-all pb-1',
                   selectedTable === table
                     ? 'text-success border-b-2 border-white'
-                    : 'text-white/50 hover:text-white/80'
+                    : 'text-white/50 hover:text-white/80',
                 ]"
               >
                 Table {{ table }}
@@ -199,11 +222,7 @@ const highlightMatch = (text: string, query: string) => {
               <div class="grid grid-cols-2 gap-8">
                 <!-- 左侧座位列 -->
                 <div class="space-y-3">
-                  <div
-                    v-for="i in 6"
-                    :key="`left-${i}`"
-                    class="flex items-center justify-between"
-                  >
+                  <div v-for="i in 6" :key="`left-${i}`" class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div
                         class="w-5 h-5 rounded-full"
@@ -224,11 +243,7 @@ const highlightMatch = (text: string, query: string) => {
 
                 <!-- 右侧座位列 -->
                 <div class="space-y-3">
-                  <div
-                    v-for="i in 6"
-                    :key="`right-${i}`"
-                    class="flex items-center justify-between"
-                  >
+                  <div v-for="i in 6" :key="`right-${i}`" class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div
                         class="w-5 h-5 rounded-full"
@@ -248,7 +263,13 @@ const highlightMatch = (text: string, query: string) => {
 
             <!-- "返回搜索" 按钮 -->
             <div class="flex items-center justify-center gap-2">
-              <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="9"
+                height="18"
+                viewBox="0 0 9 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M7.8475 16.59L1.3275 10.07C0.5575 9.3 0.5575 8.04 1.3275 7.27L7.8475 0.75"
                   stroke="white"
