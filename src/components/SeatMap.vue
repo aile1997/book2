@@ -43,354 +43,304 @@ const isSeatSelected = (seatId: string): boolean => {
 </script>
 
 <template>
-  <div class="relative w-full max-w-[340px] mx-auto">
-    <div class="relative bg-white rounded-3xl p-6 shadow-lg">
-      <!-- Labels -->
-      <div class="absolute top-8 left-8 text-gray text-xs font-medium">
-        <div class="flex items-center gap-2 mb-6">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M8 14L8 2M8 2L4 6M8 2L12 6"
-              stroke="#CCCCCC"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <span class="text-gray-lighter">Entrance</span>
-        </div>
+  <div class="relative w-full max-w-[280px] mx-auto">
+    <!-- 使用Figma背景图 -->
+    <div class="relative bg-white rounded-3xl overflow-hidden shadow-lg">
+      <!-- 背景图片 -->
+      <div class="absolute inset-0 opacity-5">
+        <img
+          src="https://api.builder.io/api/v1/image/assets/TEMP/7a402a9c3874128b62ffc1a94682466ff5104518?width=436"
+          alt=""
+          class="w-full h-full object-cover"
+        />
       </div>
 
-      <div class="absolute top-12 right-8 text-gray text-xs font-medium space-y-8">
-        <div class="flex items-center gap-2">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="2" y="2" width="12" height="6" fill="#CCCCCC" opacity="0.3" rx="2" />
-          </svg>
-          <span class="text-gray-lighter">Bar</span>
+      <!-- 内容区域 -->
+      <div class="relative p-6">
+        <!-- 标签区域 -->
+        <div class="absolute top-6 left-6 text-gray text-xs font-medium">
+          <div class="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M8 2L8 14M8 2L4 6M8 2L12 6"
+                stroke="#CCCCCC"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="text-gray-lighter">Entrance</span>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-            <rect x="2" y="2" width="16" height="12" fill="#CCCCCC" opacity="0.3" rx="2" />
-          </svg>
-          <span class="text-gray-lighter">Lounge</span>
-        </div>
-      </div>
 
-      <div class="absolute bottom-32 left-8 flex items-center gap-2 text-gray text-xs font-medium">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <rect x="2" y="2" width="12" height="12" fill="#CCCCCC" opacity="0.3" rx="2" />
+        <div class="absolute top-8 right-6 text-gray text-xs font-medium space-y-6">
+          <div class="flex items-center gap-2">
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <rect x="2" y="2" width="12" height="8" fill="#CCCCCC" opacity="0.3" rx="2" />
+            </svg>
+            <span class="text-gray-lighter">Bar</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+              <rect x="2" y="2" width="16" height="12" fill="#CCCCCC" opacity="0.3" rx="2" />
+            </svg>
+            <span class="text-gray-lighter">Lounge</span>
+          </div>
+        </div>
+
+        <div class="absolute bottom-28 left-6 flex items-center gap-2 text-gray text-xs font-medium">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="2" y="2" width="12" height="12" fill="#CCCCCC" opacity="0.3" rx="2" />
+          </svg>
+          <span class="text-gray-lighter">Fitness</span>
+        </div>
+
+        <!-- SVG 座位地图 -->
+        <svg viewBox="0 0 268 340" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+          <!-- 区域 A -->
+          <g id="area-a">
+            <rect x="30" y="80" width="30" height="138" fill="#EAEAEA" rx="4" />
+            <text x="45" y="155" text-anchor="middle" font-size="24" font-weight="500" fill="#CCCCCC">
+              A
+            </text>
+
+            <!-- 左侧座位 -->
+            <g v-for="seat in getSeatsByTable('A', 'left')" :key="seat.id">
+              <rect
+                :x="5"
+                :y="80 + getSeatY(seat.index) - 8"
+                width="18"
+                height="18"
+                rx="9"
+                :fill="getSeatColor(seat)"
+                :class="[
+                  'transition-all duration-200',
+                  seat.status === 'available' || seat.status === 'selected'
+                    ? 'cursor-pointer hover:opacity-80'
+                    : 'cursor-not-allowed',
+                ]"
+                @click="handleSeatClick(seat)"
+                @mouseenter="hoveredSeat = seat.id"
+                @mouseleave="hoveredSeat = null"
+              />
+              <g v-if="isSeatSelected(seat.id)">
+                <circle :cx="14" :cy="80 + getSeatY(seat.index)" r="7" fill="white" />
+                <path
+                  :d="`M 11 ${80 + getSeatY(seat.index)} L 13 ${82 + getSeatY(seat.index)} L 17 ${78 + getSeatY(seat.index)}`"
+                  stroke="#A78BFA"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </g>
+
+            <!-- 右侧座位 -->
+            <g v-for="seat in getSeatsByTable('A', 'right')" :key="seat.id">
+              <rect
+                :x="62"
+                :y="80 + getSeatY(seat.index) - 8"
+                width="18"
+                height="18"
+                rx="9"
+                :fill="getSeatColor(seat)"
+                :class="[
+                  'transition-all duration-200',
+                  seat.status === 'available' || seat.status === 'selected'
+                    ? 'cursor-pointer hover:opacity-80'
+                    : 'cursor-not-allowed',
+                ]"
+                @click="handleSeatClick(seat)"
+                @mouseenter="hoveredSeat = seat.id"
+                @mouseleave="hoveredSeat = null"
+              />
+              <g v-if="isSeatSelected(seat.id)">
+                <circle :cx="71" :cy="80 + getSeatY(seat.index)" r="7" fill="white" />
+                <path
+                  :d="`M 68 ${80 + getSeatY(seat.index)} L 70 ${82 + getSeatY(seat.index)} L 74 ${78 + getSeatY(seat.index)}`"
+                  stroke="#A78BFA"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </g>
+          </g>
+
+          <!-- 分隔线 -->
+          <line x1="100" y1="70" x2="100" y2="260" stroke="#EAEAEA" stroke-width="2" />
+
+          <!-- 区域 B (上半部分) -->
+          <g id="area-b">
+            <rect x="120" y="80" width="30" height="68" fill="#EAEAEA" rx="4" />
+            <text x="135" y="119" text-anchor="middle" font-size="24" font-weight="500" fill="#CCCCCC">
+              B
+            </text>
+
+            <!-- 左侧座位 (使用不同形状) -->
+            <g v-for="seat in getSeatsByTable('B', 'left').slice(0, 3)" :key="seat.id">
+              <path
+                v-if="seat.index < 3"
+                :d="`M ${95} ${80 + getSeatY(seat.index) - 8} 
+                     h 18 v 18 h -18 
+                     a 9 9 0 0 1 0 -18 z`"
+                :fill="getSeatColor(seat)"
+                :class="[
+                  'transition-all duration-200',
+                  seat.status === 'available' || seat.status === 'selected'
+                    ? 'cursor-pointer hover:opacity-80'
+                    : 'cursor-not-allowed',
+                ]"
+                @click="handleSeatClick(seat)"
+                @mouseenter="hoveredSeat = seat.id"
+                @mouseleave="hoveredSeat = null"
+              />
+              <g v-if="isSeatSelected(seat.id)">
+                <circle :cx="104" :cy="80 + getSeatY(seat.index)" r="7" fill="white" />
+                <path
+                  :d="`M 101 ${80 + getSeatY(seat.index)} L 103 ${82 + getSeatY(seat.index)} L 107 ${78 + getSeatY(seat.index)}`"
+                  stroke="#A78BFA"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </g>
+
+            <!-- 右侧座位 (使用不同形状) -->
+            <g v-for="seat in getSeatsByTable('B', 'right').slice(0, 3)" :key="seat.id">
+              <path
+                v-if="seat.index < 3"
+                :d="`M ${152} ${80 + getSeatY(seat.index) - 8} 
+                     h 18 
+                     a 9 9 0 0 1 0 18 
+                     h -18 z`"
+                :fill="getSeatColor(seat)"
+                :class="[
+                  'transition-all duration-200',
+                  seat.status === 'available' || seat.status === 'selected'
+                    ? 'cursor-pointer hover:opacity-80'
+                    : 'cursor-not-allowed',
+                ]"
+                @click="handleSeatClick(seat)"
+                @mouseenter="hoveredSeat = seat.id"
+                @mouseleave="hoveredSeat = null"
+              />
+              <g v-if="isSeatSelected(seat.id)">
+                <circle :cx="161" :cy="80 + getSeatY(seat.index)" r="7" fill="white" />
+                <path
+                  :d="`M 158 ${80 + getSeatY(seat.index)} L 160 ${82 + getSeatY(seat.index)} L 164 ${78 + getSeatY(seat.index)}`"
+                  stroke="#A78BFA"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </g>
+          </g>
+
+          <!-- 区域 C (下半部分) -->
+          <g id="area-c">
+            <rect x="120" y="152" width="30" height="68" fill="#EAEAEA" rx="4" />
+            <text x="135" y="191" text-anchor="middle" font-size="24" font-weight="500" fill="#CCCCCC">
+              C
+            </text>
+
+            <!-- 左侧座位 (使用不同形状) -->
+            <g v-for="seat in getSeatsByTable('C', 'left').slice(0, 3)" :key="seat.id">
+              <path
+                v-if="seat.index < 3"
+                :d="`M ${95} ${152 + getSeatY(seat.index) - 8} 
+                     h 18 v 18 h -18 
+                     a 9 9 0 0 1 0 -18 z`"
+                :fill="getSeatColor(seat)"
+                :class="[
+                  'transition-all duration-200',
+                  seat.status === 'available' || seat.status === 'selected'
+                    ? 'cursor-pointer hover:opacity-80'
+                    : 'cursor-not-allowed',
+                ]"
+                @click="handleSeatClick(seat)"
+                @mouseenter="hoveredSeat = seat.id"
+                @mouseleave="hoveredSeat = null"
+              />
+              <g v-if="isSeatSelected(seat.id)">
+                <circle :cx="104" :cy="152 + getSeatY(seat.index)" r="7" fill="white" />
+                <path
+                  :d="`M 101 ${152 + getSeatY(seat.index)} L 103 ${154 + getSeatY(seat.index)} L 107 ${150 + getSeatY(seat.index)}`"
+                  stroke="#A78BFA"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </g>
+
+            <!-- 右侧座位 (使用不同形状) -->
+            <g v-for="seat in getSeatsByTable('C', 'right').slice(0, 3)" :key="seat.id">
+              <path
+                v-if="seat.index < 3"
+                :d="`M ${152} ${152 + getSeatY(seat.index) - 8} 
+                     h 18 
+                     a 9 9 0 0 1 0 18 
+                     h -18 z`"
+                :fill="getSeatColor(seat)"
+                :class="[
+                  'transition-all duration-200',
+                  seat.status === 'available' || seat.status === 'selected'
+                    ? 'cursor-pointer hover:opacity-80'
+                    : 'cursor-not-allowed',
+                ]"
+                @click="handleSeatClick(seat)"
+                @mouseenter="hoveredSeat = seat.id"
+                @mouseleave="hoveredSeat = null"
+              />
+              <g v-if="isSeatSelected(seat.id)">
+                <circle :cx="161" :cy="152 + getSeatY(seat.index)" r="7" fill="white" />
+                <path
+                  :d="`M 158 ${152 + getSeatY(seat.index)} L 160 ${154 + getSeatY(seat.index)} L 164 ${150 + getSeatY(seat.index)}`"
+                  stroke="#A78BFA"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </g>
+          </g>
+
+          <!-- 会议室 -->
+          <g id="meeting-rooms">
+            <g id="meeting-a">
+              <rect x="20" y="270" width="70" height="35" fill="#EAEAEA" opacity="0.2" rx="6" />
+              <svg x="28" y="278" width="18" height="18" viewBox="0 0 20 20" fill="none">
+                <circle cx="7" cy="6" r="2.5" fill="#CCCCCC" />
+                <circle cx="13" cy="6" r="2.5" fill="#CCCCCC" />
+              </svg>
+              <text x="50" y="290" font-size="10" font-weight="500" fill="#CCCCCC">Meeting</text>
+              <text x="50" y="299" font-size="10" font-weight="500" fill="#CCCCCC">Room A</text>
+            </g>
+            <g id="meeting-b">
+              <rect x="115" y="270" width="70" height="35" fill="#EAEAEA" opacity="0.2" rx="6" />
+              <svg x="123" y="278" width="18" height="18" viewBox="0 0 20 20" fill="none">
+                <circle cx="7" cy="6" r="2.5" fill="#CCCCCC" />
+                <circle cx="13" cy="6" r="2.5" fill="#CCCCCC" />
+              </svg>
+              <text x="145" y="290" font-size="10" font-weight="500" fill="#CCCCCC">Meeting</text>
+              <text x="145" y="299" font-size="10" font-weight="500" fill="#CCCCCC">Room B</text>
+            </g>
+          </g>
         </svg>
-        <span class="text-gray-lighter">Fitness</span>
       </div>
-
-      <!-- SVG Seat Map -->
-      <svg viewBox="0 0 280 350" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-        <!-- Table A -->
-        <g id="table-a">
-          <rect x="70" y="90" width="30" height="138" fill="#EAEAEA" rx="4" />
-          <text x="85" y="165" text-anchor="middle" font-size="28" font-weight="500" fill="#CCCCCC">
-            A
-          </text>
-
-          <!-- Left seats -->
-          <g v-for="seat in getSeatsByTable('A', 'left')" :key="seat.id">
-            <rect
-              :x="38"
-              :y="90 + getSeatY(seat.index) - 10"
-              width="20"
-              height="20"
-              rx="10"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="48" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
-              <path
-                :d="`M 45 ${90 + getSeatY(seat.index)} L 47 ${92 + getSeatY(seat.index)} L 51 ${88 + getSeatY(seat.index)}`"
-                stroke="#A78BFA"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </g>
-
-          <!-- Right seats -->
-          <g v-for="seat in getSeatsByTable('A', 'right')" :key="seat.id">
-            <rect
-              :x="102"
-              :y="90 + getSeatY(seat.index) - 10"
-              width="20"
-              height="20"
-              rx="10"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="112" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
-              <path
-                :d="`M 109 ${90 + getSeatY(seat.index)} L 111 ${92 + getSeatY(seat.index)} L 115 ${88 + getSeatY(seat.index)}`"
-                stroke="#A78BFA"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </g>
-        </g>
-
-        <!-- Divider -->
-        <line x1="140" y1="80" x2="140" y2="280" stroke="#EAEAEA" stroke-width="2" />
-
-        <!-- Table B -->
-        <g id="table-b">
-          <rect x="160" y="90" width="30" height="138" fill="#EAEAEA" rx="4" />
-          <text
-            x="175"
-            y="165"
-            text-anchor="middle"
-            font-size="28"
-            font-weight="500"
-            fill="#CCCCCC"
-          >
-            B
-          </text>
-
-          <!-- Left seats -->
-          <g v-for="seat in getSeatsByTable('B', 'left')" :key="seat.id">
-            <rect
-              :x="128"
-              :y="90 + getSeatY(seat.index) - 10"
-              width="20"
-              height="20"
-              rx="10"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="138" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
-              <path
-                :d="`M 135 ${90 + getSeatY(seat.index)} L 137 ${92 + getSeatY(seat.index)} L 141 ${88 + getSeatY(seat.index)}`"
-                stroke="#A78BFA"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </g>
-
-          <!-- Right seats -->
-          <g v-for="seat in getSeatsByTable('B', 'right')" :key="seat.id">
-            <rect
-              :x="192"
-              :y="90 + getSeatY(seat.index) - 10"
-              width="20"
-              height="20"
-              rx="10"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="202" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
-              <path
-                :d="`M 199 ${90 + getSeatY(seat.index)} L 201 ${92 + getSeatY(seat.index)} L 205 ${88 + getSeatY(seat.index)}`"
-                stroke="#A78BFA"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </g>
-        </g>
-
-        <!-- Table C -->
-        <g id="table-c">
-          <rect x="220" y="90" width="30" height="138" fill="#EAEAEA" rx="4" />
-          <text
-            x="235"
-            y="165"
-            text-anchor="middle"
-            font-size="28"
-            font-weight="500"
-            fill="#CCCCCC"
-          >
-            C
-          </text>
-
-          <!-- Left seats (special shapes for table C) -->
-          <g v-for="seat in getSeatsByTable('C', 'left')" :key="seat.id">
-            <path
-              v-if="seat.index < 2"
-              :d="`M ${198} ${90 + getSeatY(seat.index) - 10} 
-                   h 20 v 20 h -20 
-                   a 10 10 0 0 1 0 -20 z`"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <rect
-              v-else
-              :x="198"
-              :y="90 + getSeatY(seat.index) - 10"
-              width="20"
-              height="20"
-              rx="10"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="208" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
-              <path
-                :d="`M 205 ${90 + getSeatY(seat.index)} L 207 ${92 + getSeatY(seat.index)} L 211 ${88 + getSeatY(seat.index)}`"
-                stroke="#A78BFA"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </g>
-
-          <!-- Right seats (special shapes for table C) -->
-          <g v-for="seat in getSeatsByTable('C', 'right')" :key="seat.id">
-            <path
-              v-if="seat.index < 3"
-              :d="`M ${252} ${90 + getSeatY(seat.index) - 10} 
-                   h 20 
-                   a 10 10 0 0 1 0 20 
-                   h -20 z`"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <rect
-              v-else
-              :x="252"
-              :y="90 + getSeatY(seat.index) - 10"
-              width="20"
-              height="20"
-              rx="10"
-              :fill="getSeatColor(seat)"
-              :class="[
-                'transition-all duration-200',
-                seat.status === 'available' || seat.status === 'selected'
-                  ? 'cursor-pointer hover:opacity-80'
-                  : 'cursor-not-allowed',
-              ]"
-              @click="handleSeatClick(seat)"
-              @mouseenter="hoveredSeat = seat.id"
-              @mouseleave="hoveredSeat = null"
-            />
-            <g v-if="isSeatSelected(seat.id)">
-              <circle :cx="262" :cy="90 + getSeatY(seat.index)" r="8" fill="white" />
-              <path
-                :d="`M 259 ${90 + getSeatY(seat.index)} L 261 ${92 + getSeatY(seat.index)} L 265 ${88 + getSeatY(seat.index)}`"
-                stroke="#A78BFA"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </g>
-        </g>
-
-        <!-- Meeting Rooms -->
-        <g id="meeting-rooms">
-          <g id="meeting-a">
-            <rect x="45" y="285" width="80" height="40" fill="#EAEAEA" opacity="0.2" rx="6" />
-            <svg x="55" y="295" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="7" cy="6" r="2.5" fill="#CCCCCC" />
-              <circle cx="13" cy="6" r="2.5" fill="#CCCCCC" />
-              <path
-                d="M4 14c0-1.5 1.5-3 3-3s3 1.5 3 3M10 14c0-1.5 1.5-3 3-3s3 1.5 3 3"
-                stroke="#CCCCCC"
-                stroke-width="1.5"
-                fill="none"
-              />
-            </svg>
-            <text x="80" y="307" font-size="11" font-weight="500" fill="#CCCCCC">Meeting</text>
-            <text x="80" y="318" font-size="11" font-weight="500" fill="#CCCCCC">Room A</text>
-          </g>
-          <g id="meeting-b">
-            <rect x="155" y="285" width="80" height="40" fill="#EAEAEA" opacity="0.2" rx="6" />
-            <svg x="165" y="295" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="7" cy="6" r="2.5" fill="#CCCCCC" />
-              <circle cx="13" cy="6" r="2.5" fill="#CCCCCC" />
-              <path
-                d="M4 14c0-1.5 1.5-3 3-3s3 1.5 3 3M10 14c0-1.5 1.5-3 3-3s3 1.5 3 3"
-                stroke="#CCCCCC"
-                stroke-width="1.5"
-                fill="none"
-              />
-            </svg>
-            <text x="190" y="307" font-size="11" font-weight="500" fill="#CCCCCC">Meeting</text>
-            <text x="190" y="318" font-size="11" font-weight="500" fill="#CCCCCC">Room B</text>
-          </g>
-        </g>
-      </svg>
     </div>
 
-    <!-- Legend -->
-    <div class="flex items-center justify-center gap-6 mt-6">
+    <!-- 图例 -->
+    <div class="flex items-center justify-center gap-6 mt-4">
       <div class="flex items-center gap-2">
         <div class="w-5 h-5 rounded-md bg-gray-lighter"></div>
         <span class="text-sm font-medium text-gray-dark">Occupied</span>
