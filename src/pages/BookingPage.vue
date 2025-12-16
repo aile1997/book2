@@ -10,10 +10,10 @@ import type { TimeSlot } from '../types/booking'
 
 const router = useRouter()
 
+// ========== 数据层 ==========
+
 // 使用座位管理组合式函数
 const { seats, selectedSeat, selectSeat, clearSelection } = useSeats()
-
-// ========== 状态管理 ==========
 
 // 邀请的伙伴列表
 const invitedPartners = ref<string[]>([])
@@ -26,8 +26,7 @@ const showSeatModal = ref(false)
 const showFindPartnerModal = ref(false)
 const showSuccessModal = ref(false)
 
-// ========== 时间段数据 ==========
-
+// 时间段数据
 const timeSlots = ref<TimeSlot[]>([
   {
     id: '1',
@@ -49,6 +48,8 @@ const timeSlots = ref<TimeSlot[]>([
   },
 ])
 
+// ========== 计算属性 ==========
+
 // 当前选中的日期和时间
 const selectedDateTime = computed(() => {
   for (const slot of timeSlots.value) {
@@ -64,17 +65,15 @@ const selectedDateTime = computed(() => {
   return null
 })
 
-// ========== 事件处理函数 ==========
+// ========== 事件处理层 ==========
 
 // 切换时间段选择
 const toggleTimeSlot = (dateIndex: number, timeIndex: number) => {
-  // 先取消所有选择
   timeSlots.value.forEach((slot) => {
     slot.times.forEach((time) => {
       time.selected = false
     })
   })
-  // 选中新的时间段
   timeSlots.value[dateIndex].times[timeIndex].selected = true
 }
 
@@ -109,6 +108,12 @@ const openFindPartnerModal = () => {
   showFindPartnerModal.value = true
 }
 
+// 从座位选择打开查找伙伴
+const openFindPartnerFromSeat = () => {
+  showSeatModal.value = false
+  showFindPartnerModal.value = true
+}
+
 // 确认邀请伙伴
 const confirmPartnerInvite = () => {
   showFindPartnerModal.value = false
@@ -124,7 +129,6 @@ const bookNow = () => {
     alert('请选择日期和时间')
     return
   }
-  // 显示成功模态框
   showSuccessModal.value = true
 }
 
@@ -141,258 +145,190 @@ const backToHome = () => {
 </script>
 
 <template>
-  <div class="relative min-h-screen bg-gradient-to-b from-gray-100 to-white">
-    <!-- ========== 顶部导航栏 ========== -->
-    <div class="sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-gray-light">
-      <div class="flex items-center justify-between px-6 py-4">
-        <button
-          @click="goBack"
-          class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-light transition-colors"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 19.9201L8.47997 13.4001C7.70997 12.6301 7.70997 11.3701 8.47997 10.6001L15 4.08008"
-              stroke="#292D32"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
-        <h1 class="text-xl font-medium text-gray-dark">Booking Seats</h1>
-        <div class="w-10"></div>
+  <div class="relative min-h-screen bg-white overflow-hidden">
+    <!-- ========== 背景图层 ========== -->
+    <div class="absolute inset-0 w-full h-full">
+      <!-- Figma 背景图 (旋转的办公室照片) -->
+      <div class="absolute inset-0">
+        <img
+          src="https://api.builder.io/api/v1/image/assets/TEMP/82bec9dbdda63618707f633af0c7c4829ba41636?width=1624"
+          alt=""
+          class="w-full h-full object-cover"
+          style="transform: rotate(-90deg) scale(1.5); transform-origin: center;"
+        />
       </div>
+      
+      <!-- 渐变遮罩 -->
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-white"></div>
     </div>
 
-    <!-- ========== 主要内容区域 ========== -->
-    <div class="px-6 py-6 pb-28 max-w-2xl mx-auto">
-      <!-- ========== 座位选择区域 ========== -->
-      <section class="mb-8">
-        <h2 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">选择座位</h2>
-
-        <!-- 未选择座位时显示地图预览 -->
-        <div v-if="!selectedSeat" class="relative">
-          <div class="opacity-60 pointer-events-none">
-            <SeatMap :seats="seats" :selected-seat="null" @select-seat="() => {}" />
-          </div>
-
-          <!-- 选择按钮覆层 -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <button
-              @click="openSeatModal"
-              class="px-8 py-4 bg-gray-dark text-white text-base font-medium rounded-xl shadow-lg hover:bg-gray-dark/90 transition-all transform hover:scale-105"
+    <!-- ========== 内容层 ========== -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- ========== 顶部导航栏 ========== -->
+      <div class="sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-gray-light">
+        <div class="flex items-center justify-between px-8 py-5">
+          <button
+            @click="goBack"
+            class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-light transition-colors"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              点击选择座位
-            </button>
-          </div>
+              <path
+                d="M15 19.9201L8.47997 13.4001C7.70997 12.6301 7.70997 11.3701 8.47997 10.6001L15 4.08008"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <h1 class="text-xl font-normal text-black tracking-tight">Booking Seats</h1>
+          <button
+            class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-dark hover:opacity-90 transition-opacity"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.7322 16.4564C14.5895 16.794 13.239 16.9498 11.6547 16.9498H3.86333C2.27896 16.9498 0.928542 16.794 -0.214167 16.4564C0.0715417 13.0801 3.53854 10.418 7.759 10.418C11.9794 10.418 15.4465 13.0801 15.7322 16.4564Z\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" transform=\"translate(4, 2)\"/>
+              <path d=\"M12.4079 2.12012C12.4079 4.69137 10.3302 6.78195 7.759 6.78195C5.18775 6.78195 3.11008 4.69137 3.11008 2.12012C3.11008 -0.451125 5.18775 -2.54879 7.759 -2.54879C10.3302 -2.54879 12.4079 -0.451125 12.4079 2.12012Z\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" transform=\"translate(4, 6)\"/>
+            </svg>
+          </button>
         </div>
+      </div>
 
-        <!-- 已选择座位时显示座位信息 -->
-        <div v-else class="bg-white rounded-2xl shadow-card p-6">
+      <!-- ========== 主要内容区域 ========== -->
+      <div class="flex-1 px-8 py-6 pb-32 max-w-2xl mx-auto w-full">
+        <!-- ========== 座位信息 ========== -->
+        <section class="mb-6">
+          <h2 class="text-sm font-normal text-black mb-3 tracking-tight">Your Seat</h2>
+
           <div class="flex items-end justify-between">
-            <div>
-              <div class="text-sm font-medium text-gray mb-2 tracking-tight">您的座位</div>
-              <div class="text-5xl font-bold text-gray-dark tracking-tight">
-                {{ selectedSeat }}
-              </div>
+            <div v-if="selectedSeat" class="text-4xl font-semibold text-black tracking-tight">
+              {{ selectedSeat }}
             </div>
+            <div v-else class="text-2xl font-normal text-gray tracking-tight">
+              No seat selected
+            </div>
+            
             <button
+              v-if="selectedSeat"
               @click="reselectSeat"
-              class="px-6 py-3 border-2 border-gray-light rounded-xl text-sm font-medium text-gray-dark hover:border-gray-dark transition-colors"
+              class="px-6 py-3 border border-gray-light rounded-lg text-sm font-normal text-gray-dark hover:border-gray-dark transition-colors"
             >
-              重新选择
+              Re-select
+            </button>
+            <button
+              v-else
+              @click="openSeatModal"
+              class="px-6 py-3 bg-gray-dark text-white rounded-lg text-sm font-normal hover:opacity-90 transition-opacity"
+            >
+              Select Seat
             </button>
           </div>
 
           <!-- 座位地图缩略图 -->
-          <div class="mt-6 scale-75 origin-top-left pointer-events-none">
-            <SeatMap :seats="seats" :selected-seat="selectedSeat" @select-seat="() => {}" />
+          <div v-if="selectedSeat" class="mt-6">
+            <img
+              src="https://api.builder.io/api/v1/image/assets/TEMP/7a402a9c3874128b62ffc1a94682466ff5104518?width=436"
+              alt="Seat Map"
+              class="w-full max-w-[218px] h-auto rounded-2xl shadow-card"
+            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ========== 分隔线 ========== -->
-      <div class="border-t border-gray-light my-8"></div>
+        <!-- ========== 分隔线 ========== -->
+        <div class="border-t border-gray-light my-6"></div>
 
-      <!-- ========== 日期和时间选择 ========== -->
-      <section class="mb-8">
-        <h2 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">日期 & 时间</h2>
+        <!-- ========== 日期和时间选择 ========== -->
+        <section class="mb-6">
+          <h2 class="text-sm font-normal text-black mb-3 tracking-tight">Date & Time</h2>
 
-        <div class="space-y-4">
-          <div v-for="(slot, dateIndex) in timeSlots" :key="slot.id" class="flex gap-4 items-start">
-            <!-- 日期显示 -->
-            <div class="w-20 flex-shrink-0">
-              <div class="text-2xl font-bold text-gray-dark tracking-tight">{{ slot.date }}</div>
-              <div class="text-xs text-gray mt-1 tracking-tight">{{ slot.weekday }}</div>
+          <div class="space-y-6">
+            <div v-for="(slot, dateIndex) in timeSlots" :key="slot.id" class="flex gap-6 items-start">
+              <!-- 日期显示 -->
+              <div class="w-16 flex-shrink-0">
+                <div class="text-2xl font-semibold text-gray-dark tracking-tight">{{ slot.date }}</div>
+                <div class="text-xs text-gray mt-1 tracking-tight">{{ slot.weekday }}</div>
+              </div>
+
+              <!-- 时间段选择 -->
+              <div class="flex-1 space-y-3">
+                <button
+                  v-for="(time, timeIndex) in slot.times"
+                  :key="time.id"
+                  @click="toggleTimeSlot(dateIndex, timeIndex)"
+                  class="w-full px-4 py-3.5 rounded-xl text-sm font-normal transition-all tracking-tight"
+                  :class="[
+                    time.selected
+                      ? 'bg-gray-dark text-white shadow-md'
+                      : 'border border-gray-light text-gray-dark hover:border-gray-dark',
+                  ]"
+                >
+                  {{ time.time }}
+                </button>
+              </div>
             </div>
-
-            <!-- 时间段选择 -->
-            <div class="flex-1 space-y-2">
-              <button
-                v-for="(time, timeIndex) in slot.times"
-                :key="time.id"
-                @click="toggleTimeSlot(dateIndex, timeIndex)"
-                class="w-full px-4 py-3.5 rounded-xl text-sm font-medium transition-all tracking-tight"
-                :class="[
-                  time.selected
-                    ? 'bg-success text-white shadow-md'
-                    : 'border-2 border-gray-light text-gray-dark hover:border-gray-dark',
-                ]"
-              >
-                {{ time.time }}
-              </button>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ========== 分隔线 ========== -->
-      <div class="border-t border-gray-light my-8"></div>
+        <!-- ========== 分隔线 ========== -->
+        <div class="border-t border-gray-light my-6"></div>
 
-      <!-- ========== 邀请伙伴 ========== -->
-      <section class="mb-8">
-        <h2 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">邀请伙伴</h2>
+        <!-- ========== 邀请伙伴 ========== -->
+        <section class="mb-6">
+          <h2 class="text-sm font-normal text-black mb-3 tracking-tight">Invite Co-worker</h2>
 
-        <div class="flex flex-wrap gap-3">
-          <!-- 已邀请的伙伴标签 -->
-          <button
-            v-for="partner in invitedPartners"
-            :key="partner"
-            @click="removePartner(partner)"
-            class="inline-flex items-center gap-2 px-3 py-2 bg-primary-light rounded-full border border-primary hover:bg-primary/10 transition-colors group"
-          >
-            <span class="text-sm font-medium text-primary-dark">{{ partner }}</span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="opacity-60 group-hover:opacity-100 transition-opacity"
+          <div class="flex flex-wrap gap-2">
+            <!-- 已邀请的伙伴标签 -->
+            <button
+              v-for="partner in invitedPartners"
+              :key="partner"
+              class="inline-flex items-center gap-2 px-3 py-2 bg-primary-light rounded-full border border-primary-light hover:bg-primary/10 transition-colors"
             >
-              <circle cx="8" cy="8" r="7" fill="#784DC7" />
-              <path
-                d="M5 5L11 11M11 5L5 11"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
+              <span class="text-sm font-normal text-primary-dark">{{ partner }}</span>
+            </button>
 
-          <!-- 添加伙伴按钮 -->
-          <button
-            @click="openFindPartnerModal"
-            class="inline-flex items-center gap-2 px-4 py-2 border-2 border-dashed border-gray-light rounded-full hover:border-gray-dark transition-colors group"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="text-gray group-hover:text-gray-dark transition-colors"
+            <!-- 添加伙伴按钮 -->
+            <button
+              @click="openFindPartnerModal"
+              class="inline-flex items-center gap-2 px-4 py-2 border border-dashed border-gray-light rounded-full hover:border-gray-dark transition-colors"
             >
-              <path
-                d="M9 3.75V14.25M3.75 9H14.25"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </svg>
-            <span
-              class="text-sm font-medium text-gray group-hover:text-gray-dark transition-colors"
-            >
-              添加伙伴
-            </span>
-          </button>
-        </div>
-
-        <!-- 提示信息 -->
-        <p class="text-xs text-gray mt-3">点击标签可移除已邀请的伙伴</p>
-      </section>
-
-      <!-- ========== 预订摘要 ========== -->
-      <section
-        v-if="selectedSeat && selectedDateTime"
-        class="bg-primary-light/30 rounded-2xl p-6 border border-primary/20"
-      >
-        <h3 class="text-sm font-medium text-gray-dark mb-4 tracking-tight">预订摘要</h3>
-        <div class="space-y-3 text-sm">
-          <div class="flex justify-between">
-            <span class="text-gray">座位</span>
-            <span class="font-medium text-gray-dark">{{ selectedSeat }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray">日期</span>
-            <span class="font-medium text-gray-dark"
-              >{{ selectedDateTime.date }} ({{ selectedDateTime.weekday }})</span
-            >
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray">时间</span>
-            <span class="font-medium text-gray-dark">{{ selectedDateTime.time }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray">伙伴</span>
-            <span class="font-medium text-gray-dark">{{ invitedPartners.length }} 人</span>
-          </div>
-          <div class="border-t border-primary/20 pt-3 mt-3"></div>
-          <div class="flex justify-between items-center">
-            <span class="text-gray">消耗积分</span>
-            <div class="flex items-center gap-2">
               <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <circle cx="10" cy="10" r="9" fill="#51D5FF" />
-                <path d="M10 6v8M6 10h8" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                <path
+                  d="M8 3.5V12.5M3.5 8H12.5"
+                  stroke="#B9B9B9"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
               </svg>
-              <span class="font-bold text-cyan text-lg">{{ coinCost }}</span>
-            </div>
+              <span class="text-sm font-normal text-gray">Add</span>
+            </button>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
 
-    <!-- ========== 底部固定操作栏 ========== -->
-    <div
-      class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-light px-6 py-4 z-20 shadow-lg"
-    >
-      <div class="flex items-center justify-between max-w-2xl mx-auto gap-4">
-        <!-- Coins 显示 -->
-        <div class="flex items-center gap-2 px-4 py-2 bg-cyan/10 rounded-xl">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+      <!-- ========== 底部固定操作栏 ========== -->
+      <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-light px-8 py-4 z-20 shadow-lg">
+        <div class="flex items-center justify-between max-w-2xl mx-auto">
+          <button
+            @click="bookNow"
+            :disabled="!selectedSeat"
+            class="w-full max-w-xs h-14 bg-gray-dark text-white text-xl font-normal rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg tracking-tight mx-auto"
+            :class="selectedSeat ? 'border-2 border-primary-light' : ''"
           >
-            <circle cx="12" cy="12" r="10" fill="#51D5FF" />
-            <path d="M12 7v10M7 12h10" stroke="white" stroke-width="2" stroke-linecap="round" />
-          </svg>
-          <span class="text-lg font-bold text-cyan">{{ coinCost }}</span>
+            Book Now
+          </button>
         </div>
-
-        <!-- 预定按钮 -->
-        <button
-          @click="bookNow"
-          :disabled="!selectedSeat"
-          class="flex-1 px-8 py-4 bg-gray-dark text-white text-lg font-semibold rounded-xl hover:bg-gray-dark/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-        >
-          立即预订
-        </button>
       </div>
     </div>
 
@@ -405,6 +341,7 @@ const backToHome = () => {
       :selected-seat="selectedSeat"
       @select-seat="handleSeatSelect"
       @confirm="confirmSeatSelection"
+      @find-partner="openFindPartnerFromSeat"
     />
 
     <!-- 查找伙伴模态框 -->
@@ -420,7 +357,6 @@ const backToHome = () => {
 </template>
 
 <style scoped>
-/* 自定义滚动条 */
 ::-webkit-scrollbar {
   width: 6px;
 }
