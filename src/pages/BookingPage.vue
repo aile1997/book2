@@ -192,9 +192,19 @@ const backToHome = () => {
           <button
             class="flex items-center justify-center w-14 h-14 rounded-full bg-gray-dark hover:opacity-90 transition-opacity"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15.7322 16.4564C14.5895 16.794 13.239 16.9498 11.6547 16.9498H3.86333C2.27896 16.9498 0.928542 16.794 -0.214167 16.4564C0.0715417 13.0801 3.53854 10.418 7.759 10.418C11.9794 10.418 15.4465 13.0801 15.7322 16.4564Z\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" transform=\"translate(4, 2)\"/>
-              <path d=\"M12.4079 2.12012C12.4079 4.69137 10.3302 6.78195 7.759 6.78195C5.18775 6.78195 3.11008 4.69137 3.11008 2.12012C3.11008 -0.451125 5.18775 -2.54879 7.759 -2.54879C10.3302 -2.54879 12.4079 -0.451125 12.4079 2.12012Z\" stroke=\"white\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" transform=\"translate(4, 6)\"/>
+            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15.7322 16.4564C14.5895 16.794 13.239 16.9498 11.6547 16.9498H3.86333C2.27896 16.9498 0.928542 16.794 -0.214167 16.4564C0.0715417 13.0801 3.53854 10.418 7.759 10.418C11.9794 10.418 15.4465 13.0801 15.7322 16.4564Z"
+                fill="white"
+                stroke="white"
+                stroke-width="1.5"
+              />
+              <path
+                d="M12.4079 2.12012C12.4079 4.69137 10.3302 6.78195 7.759 6.78195C5.18775 6.78195 3.11008 4.69137 3.11008 2.12012C3.11008 -0.451125 5.18775 -2.54879 7.759 -2.54879C10.3302 -2.54879 12.4079 -0.451125 12.4079 2.12012Z"
+                fill="white"
+                stroke="white"
+                stroke-width="1.5"
+              />
             </svg>
           </button>
         </div>
